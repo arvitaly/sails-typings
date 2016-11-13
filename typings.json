@@ -1,0 +1,5 @@
+{
+  "globalDependencies": {
+    "waterline": "npm:waterline-typings/index.d.ts"
+  }
+}
