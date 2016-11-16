@@ -11,7 +11,7 @@ declare namespace Sails {
         }
         models?: {
             migrate?: "alter" | "safe" | "drop",
-            connection?: "string"
+            connection?: string;
         }
         connections?: {
             [index: string]: Connection;
