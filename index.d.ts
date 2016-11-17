@@ -1,6 +1,7 @@
 declare namespace Sails {
     export interface Sails {
         models: { [index: string]: Sails.Model };
+        lower?(cb?: (err) => any);
     }
     export interface Connection {
         adapter?: string;
