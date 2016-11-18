@@ -25,6 +25,12 @@ declare namespace Sails {
         load(config: AppConfig, cb: (err, sails: Sails) => any);
         load(cb: (err, sails: Sails) => any);
         lower(cb?: (err) => any);
+        on(event: string, cb?: () => any): App;
+        models: { [index: string]: Sails.Model };
+        config: {
+            [index: string]: any;
+            routes: any;
+        };
     }
     export interface Model extends Waterline.Collection {
         globalId: string;
