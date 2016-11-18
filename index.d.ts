@@ -17,7 +17,8 @@ declare namespace Sails {
         connections?: {
             [index: string]: Connection;
         }
-        appPath?: string
+        appPath?: string,
+        port?: number;
     }
     export interface App {
         lift(config: AppConfig, cb: (err, sails: Sails) => any);
