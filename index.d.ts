@@ -19,6 +19,35 @@ declare namespace Sails {
         }
         appPath?: string,
         port?: number;
+        routes?: {
+            [index: string]: Route | RouteWithPolicy;
+        };
+        cors?: CORSConfig;
+    }
+    export type Route = string | RouteControllerAction | RouteView | RouteBlueprint | RouteResponse | RoutePolicy;
+    export type RouteControllerAction = { controller: string; action: string }
+    export type RouteView = { view: string };
+    export type RouteBlueprint = { blueprint: string; model?: string };
+    export type RouteResponse = { response: string };
+    export type RoutePolicy = { policy: "string" };
+    export type RouteFunction = {
+        fn: (req: Request, res: Response) => any;
+        skipAssets?: boolean;
+        skipRegex?: RegExp;
+        locals?: any;
+        cors?: CORS;
+    };
+    export type RouteWithPolicy = Array<Route>;
+    export type CORS = boolean | {
+        origin?: string;
+        credentials?: boolean;
+        securityLevel?: number;
+        methods?: string;
+        headers?: string;
+        exposeHeaders?: string;
+    }
+    export type CORSConfig = CORS & {
+        allRoutes?: boolean;
     }
     export interface App {
         lift(config: AppConfig, cb: (err, sails: Sails) => any);
@@ -32,6 +61,9 @@ declare namespace Sails {
             [index: string]: any;
             routes: any;
         };
+    }
+    export interface Response {
+
     }
     export type RequestOptionsValues = { values: any };
     export type RequestOptionsWhere = { where: any };
