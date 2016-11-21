@@ -23,6 +23,19 @@ declare namespace Sails {
             [index: string]: Route | RouteWithPolicy;
         };
         cors?: CORSConfig;
+        blueprints?: BlueprintsConfig;
+    }
+    export type BlueprintsConfig = {
+        actions?: boolean;
+        rest?: boolean;
+        shortcuts?: boolean;
+        prefix?: string;
+        restPrefix?: string;
+        pluralize?: boolean;
+        populate?: boolean;
+        defaultLimit?: number;
+        autoWatch?: boolean;
+        jsonp?: boolean;
     }
     export type Route = string | RouteControllerAction | RouteView | RouteBlueprint | RouteResponse | RoutePolicy;
     export type RouteControllerAction = { controller: string; action: string }
