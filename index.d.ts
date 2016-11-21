@@ -33,8 +33,47 @@ declare namespace Sails {
             routes: any;
         };
     }
+    export type RequestOptionsValues = { values: any };
+    export type RequestOptionsWhere = { where: any };
+    export type RequestOptions = any | RequestOptionsValues | RequestOptionsWhere;
+    export interface RequestAccept {
+        value: string,
+        quality: number,
+        type: string,
+        subtype: string
+    } // TODO from https://github.com/jshttp/accepts
     export interface Request {
+        options: RequestOptions;
+        accepted: Array<RequestAccept>;
+        acceptedCharsets: Array<string>;
+        acceptedLanguages: Array<string>;
+        body: any;
+        fresh: boolean;
+        host: string;
+        cookies: any;
+        headers: any;
+        ip: string;
         isSocket: boolean;
+        method: string;
+        path: string;
+        protocol: "http" | "https" | "ws" | "wss";
+        params: any;
+        query: any;
+        secure: boolean;
+        signedCookies: any;
+        url: string;
+        subdomains: Array<string>;
+        socket: SocketIO.Socket;
+        wantsJSON: boolean;
+        xhr: boolean;
+        accepts(type: string): boolean;
+        acceptsCharset(charset: string): boolean;
+        acceptsLanguage(lang: string): boolean;
+        allParams(): any;
+        get(header: string): string;
+        file(field: string): any; // TODO add skipper https://github.com/balderdashy/skipper
+        is(type: string): boolean;
+        param(name: string, defaultValue: any): any;
     }
     export type Id = string | number;
     export interface Model extends Waterline.Collection {
@@ -50,6 +89,18 @@ declare namespace Sails {
         watch(req: Request): Model;
         subscribe(req: Request, ids: Array<Id>): Model;
         unwatch(req: Request): Model;
+        // Lifecycle callbacks http://sailsjs.org/documentation/concepts/models-and-orm/lifecycle-callbacks        
+        beforeValidate: (values: any, cb: () => void) => any;
+        afterValidate: (values: any, cb: () => void) => any;
+        // Callbacks on create
+        beforeCreate: (values: any, cb: () => void) => any;
+        afterCreate: (newlyInsertedRecord: any, cb: () => void) => any;
+        // Callbacks on update
+        beforeUpdate: (valuesToUpdate: any, cb: () => void) => any;
+        afterUpdate: (updatedRecord: any, cb: () => void) => any;
+        // Callbacks on destroy
+        beforeDestroy: (criteria: any, cb: () => void) => any;
+        afterDestroy: (destroyedRecords: any, cb: () => void) => any;
     }
     export interface Module {
         constructor: new () => App;
