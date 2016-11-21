@@ -34,7 +34,7 @@ declare namespace Sails {
         };
     }
     export interface Request {
-
+        isSocket: boolean;
     }
     export type Id = string | number;
     export interface Model extends Waterline.Collection {
@@ -53,6 +53,40 @@ declare namespace Sails {
     }
     export interface Module {
         constructor: new () => App;
+    }
+    export type WebSocketEventVerb = "addedTo" | "created" | "removedFrom" | "destroyed" | "updated";
+    export type WebSocketEvent = WebSocketCreateEvent<any> | WebSocketUpdateEvent<any> | WebSocketAddToEvent<any> | WebSocketRemoveFromEvent | WebSocketDestroyEvent<any> | WebSocketUpdateEvent<any>;
+    export interface WebSocketBaseEvent {
+        verb: WebSocketEventVerb;
+    }
+    export interface WebSocketAddToEvent<T> extends WebSocketBaseEvent {
+        verb: "addedTo";
+        id: Id;
+        attribute: string;
+        addedId: Id;
+        added?: T;
+    }
+    export interface WebSocketCreateEvent<T> extends WebSocketBaseEvent {
+        verb: "created";
+        id: Id;
+        data: T;
+    }
+    export interface WebSocketRemoveFromEvent extends WebSocketBaseEvent {
+        verb: "removedFrom";
+        id: Id;
+        attribute: string;
+        removedId: Id;
+    }
+    export interface WebSocketDestroyEvent<T> extends WebSocketBaseEvent {
+        verb: "destroyed";
+        id: Id;
+        previous: T;
+    }
+    export interface WebSocketUpdateEvent<T> extends WebSocketBaseEvent {
+        verb: "updated";
+        id: Id;
+        data: T;
+        previous?: T;
     }
 }
 declare var sails: Sails.Sails;
