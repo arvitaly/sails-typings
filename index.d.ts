@@ -288,7 +288,5 @@ declare namespace Sails {
     }
 }
 declare var sails: Sails.App;
-declare var sailsModule: Sails.Module;
-declare module 'sails' {
-    export = sailsModule
-}
+declare var Sails: Sails.Module;
+export = Sails;
