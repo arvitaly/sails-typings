@@ -1,10 +1,7 @@
 import * as NodeHTTPS from "https";
 import * as Express from "express";
 declare namespace Sails {
-    export interface Sails {
-        models: { [index: string]: Model };
-        lower?(cb?: (err) => any);
-    }
+    export type Models = { [index: string]: Model };
     export interface Connection {
         adapter?: string;
         user?: string;
@@ -166,13 +163,13 @@ declare namespace Sails {
         allRoutes?: boolean;
     }
     export interface App {
-        lift(config: AppConfig, cb: (err, sails: Sails) => any);
-        lift(cb: (err, sails: Sails) => any);
-        load(config: AppConfig, cb: (err, sails: Sails) => any);
-        load(cb: (err, sails: Sails) => any);
+        lift(config: AppConfig, cb: (err, sails: App) => any);
+        lift(cb: (err, sails: App) => any);
+        load(config: AppConfig, cb: (err, sails: App) => any);
+        load(cb: (err, sails: App) => any);
         lower(cb?: (err) => any);
         on(event: string, cb?: () => any): App;
-        models: { [index: string]: Sails.Model };
+        models: Models;
         config: {
             [index: string]: any;
             routes: any;
