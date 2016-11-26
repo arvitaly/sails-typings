@@ -1,5 +1,6 @@
-import * as NodeHTTPS from "https";
-import * as Express from "express";
+import NodeHTTPS = require("https");
+import Express = require("express");
+import Waterline = require("waterline");
 declare namespace Sails {
     export type Models = { [index: string]: Model };
     export interface Connection {
@@ -223,7 +224,7 @@ declare namespace Sails {
         param(name: string, defaultValue: any): any;
     }
     export type Id = string | number;
-    export interface Model extends Waterline.Collection {
+    export interface Model extends Waterline.Model {
         globalId: string;
         // WebSockets Resourceful PubSub http://sailsjs.org/documentation/reference/web-sockets/resourceful-pub-sub  
         message(id: Id, data: any, req?: Request): Model;
