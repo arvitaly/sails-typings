@@ -2,14 +2,20 @@ import NodeHTTPS = require("https");
 import Express = require("express");
 import Waterline = require("waterline");
 declare namespace Sails {
-    export type Models = { [index: string]: Model };
-    export interface Connection {
-        adapter?: string;
-        user?: string;
-        password?: string;
-        host?: string;
-        database?: string;
+    export interface Module {
+        constructor: new () => App;
     }
+    export interface App {
+        lift(config: AppConfig, cb: (err: any, sails: App) => any): void;
+        lift(cb: (err: any, sails: App) => any): void;
+        load(config: AppConfig, cb: (err: any, sails: App) => any): void;
+        load(cb: (err: any, sails: App) => any): void;
+        lower(cb?: (err: any) => any): void;
+        on(event: string, cb?: () => any): App;
+        models: Models;
+        config: AppConfig;
+    }
+    export type Models = { [index: string]: Model };
     export interface AppConfig {
         appPath?: string;
         port?: number;
@@ -25,7 +31,7 @@ declare namespace Sails {
             cert?: string;
             pfx?: string;
         }
-        bootstrap?: (cb: () => any) => void;
+        bootstrap?: (cb: (err?: any) => void) => void;
         connections?: {
             [index: string]: Connection;
         }
@@ -53,6 +59,109 @@ declare namespace Sails {
         sockets?: SocketsConfig;
         sessions?: SessionsConfig;
     }
+    export interface Connection {
+        adapter?: string;
+        user?: string;
+        password?: string;
+        host?: string;
+        database?: string;
+        keepAlive?: boolean;
+        sniffOnStart?: boolean;
+        maxRetries?: number;
+        deadTimeout?: number;
+        sniffOnConnectionFault?: boolean;
+        apiVersion?: string;
+    }
+    export type BlueprintsConfig = {
+        actions?: boolean;
+        rest?: boolean;
+        shortcuts?: boolean;
+        prefix?: string;
+        restPrefix?: string;
+        pluralize?: boolean;
+        populate?: boolean;
+        defaultLimit?: number;
+        autoWatch?: boolean;
+        jsonp?: boolean;
+    }
+    export type CSRFConfig = {
+        grantTokenViaAjax?: boolean;
+        origin?: string;
+        routesDisabled?: string | Array<string>;
+        protectionEnabled?: boolean;
+        route?: string;
+    }
+    export type CORS = {
+        origin?: string;
+        credentials?: boolean;
+        securityLevel?: number;
+        methods?: string;
+        headers?: string;
+        exposeHeaders?: string;
+    }
+    export type CORSConfig = boolean | (CORS & {
+        allRoutes?: boolean;
+    })
+    export type GlobalsConfig = {
+        sails?: boolean;
+        models?: boolean;
+        services?: boolean;
+        _?: boolean;
+        async?: boolean;
+    }
+    export type I18nConfig = {
+        locales?: Array<string>;
+        localesDirectory?: string;
+        defaultLocale?: string;
+        updateFiles?: boolean;
+    }
+    export type Attribute = Waterline.Attribute;
+    export type ModelsConfig = {
+        attributes?: { [index: string]: Attribute };
+        migrate?: "alter" | "safe" | "drop",
+        connection?: string;
+        autoPK?: boolean;
+        autoCreatedAt?: boolean;
+        autoUpdatedAt?: boolean;
+        tableName?: string;
+        dynamicFinders?: boolean;
+    }
+    export type Route = string | RouteControllerAction | RouteView | RouteBlueprint | RouteResponse | RoutePolicy;
+    export type RouteControllerAction = { controller: string; action: string }
+    export type RouteView = { view: string };
+    export type RouteBlueprint = { blueprint: string; model?: string };
+    export type RouteResponse = { response: string };
+    export type RoutePolicy = { policy: string };
+    export type RouteFunction = {
+        fn: (req: Request, res: Response) => any;
+        skipAssets?: boolean;
+        skipRegex?: RegExp;
+        locals?: any;
+        cors?: boolean | CORS;
+    };
+    export type RouteWithPolicy = Array<Route>;
+    export type SocketsConfig = {
+        adapter?: string;
+        transports?: Array<"polling" | "websocket">;
+        afterDisconnect?: (session: any, socket: SocketIO.Socket, cb: () => any) => any; // TODO
+        allowUpgrades?: boolean;
+        beforeConnect?: () => any | boolean; // TODO
+        cookie?: string | boolean;
+        grant3rdPartyCookie?: boolean;
+        maxHttpBufferSize?: number;
+        path?: string;
+        pingInterval?: number;
+        pingTimeout?: number;
+        pubClient?: any; // TODO
+        sendResponseHeaders?: boolean;
+        serveClient?: boolean;
+        subClient?: any; // TODO
+    }
+    export type HTTPConfig = {
+        middleware?: any | { order: Array<string> };
+        cache?: number;
+        serverOptions?: NodeHTTPS.ServerOptions;
+    }
     export type SessionsConfig = {
         adapter?: string;
         key?: string;
@@ -74,108 +183,6 @@ declare namespace Sails {
         secret ?: string;
         saveUninitialized ?: boolean;*/
     };
-
-    export type SocketsConfig = {
-        adapter?: string;
-        transports?: Array<"polling" | "websocket">;
-        afterDisconnect?: (session: any, socket: SocketIO.Socket, cb: () => any) => any; // TODO
-        allowUpgrades?: boolean;
-        beforeConnect?: () => any | boolean; // TODO
-        cookie?: string | boolean;
-        grant3rdPartyCookie?: boolean;
-        maxHttpBufferSize?: number;
-        path?: string;
-        pingInterval?: number;
-        pingTimeout?: number;
-        pubClient?: any; // TODO
-        sendResponseHeaders?: boolean;
-        serveClient?: boolean;
-        subClient?: any; // TODO
-    }
-    export type Attribute = Waterline.Attribute;
-    export type ModelsConfig = {
-        attributes?: { [index: string]: Attribute };
-        migrate?: "alter" | "safe" | "drop",
-        connection?: string;
-        autoPK?: boolean;
-        autoCreatedAt?: boolean;
-        autoUpdatedAt?: boolean;
-        tableName?: string;
-        dynamicFinders?: boolean;
-    }
-    export type HTTPConfig = {
-        middleware?: any | { order: Array<string> };
-        cache?: number;
-        serverOptions?: NodeHTTPS.ServerOptions;
-    }
-    export type GlobalsConfig = {
-        sails?: boolean;
-        models?: boolean;
-        services?: boolean;
-        _?: boolean;
-        async?: boolean;
-    }
-    export type I18nConfig = {
-        locales?: Array<string>;
-        localesDirectory?: string;
-        defaultLocale?: string;
-        updateFiles?: boolean;
-    }
-    export type CSRFConfig = {
-        grantTokenViaAjax?: boolean;
-        origin?: string;
-        routesDisabled?: string | Array<string>;
-    }
-    export type BlueprintsConfig = {
-        actions?: boolean;
-        rest?: boolean;
-        shortcuts?: boolean;
-        prefix?: string;
-        restPrefix?: string;
-        pluralize?: boolean;
-        populate?: boolean;
-        defaultLimit?: number;
-        autoWatch?: boolean;
-        jsonp?: boolean;
-    }
-    export type Route = string | RouteControllerAction | RouteView | RouteBlueprint | RouteResponse | RoutePolicy;
-    export type RouteControllerAction = { controller: string; action: string }
-    export type RouteView = { view: string };
-    export type RouteBlueprint = { blueprint: string; model?: string };
-    export type RouteResponse = { response: string };
-    export type RoutePolicy = { policy: "string" };
-    export type RouteFunction = {
-        fn: (req: Request, res: Response) => any;
-        skipAssets?: boolean;
-        skipRegex?: RegExp;
-        locals?: any;
-        cors?: CORS;
-    };
-    export type RouteWithPolicy = Array<Route>;
-    export type CORS = boolean | {
-        origin?: string;
-        credentials?: boolean;
-        securityLevel?: number;
-        methods?: string;
-        headers?: string;
-        exposeHeaders?: string;
-    }
-    export type CORSConfig = CORS & {
-        allRoutes?: boolean;
-    }
-    export interface App {
-        lift(config: AppConfig, cb: (err: any, sails: App) => any): void;
-        lift(cb: (err: any, sails: App) => any): void;
-        load(config: AppConfig, cb: (err: any, sails: App) => any): void;
-        load(cb: (err: any, sails: App) => any): void;
-        lower(cb?: (err: any) => any): void;
-        on(event: string, cb?: () => any): App;
-        models: Models;
-        config: {
-            [index: string]: any;
-            routes: any;
-        };
-    }
     export type ResponseViewLocals = (locals?: any) => void;
     export type ResponseViewPath = (pathToView?: string, locals?: any) => void;
     export type Response = Express.Response & {
@@ -249,9 +256,6 @@ declare namespace Sails {
         // Callbacks on destroy
         beforeDestroy: (criteria: any, cb: () => void) => any;
         afterDestroy: (destroyedRecords: any, cb: () => void) => any;
-    }
-    export interface Module {
-        constructor: new () => App;
     }
     export type WebSocketEventVerb = "addedTo" | "created" | "removedFrom" | "destroyed" | "updated";
     export type WebSocketEvent = WebSocketCreateEvent<any> | WebSocketUpdateEvent<any> | WebSocketAddToEvent<any> | WebSocketRemoveFromEvent | WebSocketDestroyEvent<any> | WebSocketUpdateEvent<any>;
