@@ -1,6 +1,6 @@
 {
   "name": "sails-typings",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -19,5 +19,9 @@
   "homepage": "https://github.com/arvitaly/sails-typings#readme",
   "dependencies": {
     "waterline-typings": "0.2.0"
+  },
+  "devDependencies": {
+    "tslint": "^4.0.2",
+    "typescript": "^2.0.10"
   }
 }

@@ -78,7 +78,7 @@ declare namespace Sails {
     export type SocketsConfig = {
         adapter?: string;
         transports?: Array<"polling" | "websocket">;
-        afterDisconnect?: (session, socket: SocketIO.Socket, cb) => any; // TODO
+        afterDisconnect?: (session: any, socket: SocketIO.Socket, cb: () => any) => any; // TODO
         allowUpgrades?: boolean;
         beforeConnect?: () => any | boolean; // TODO
         cookie?: string | boolean;
@@ -164,11 +164,11 @@ declare namespace Sails {
         allRoutes?: boolean;
     }
     export interface App {
-        lift(config: AppConfig, cb: (err, sails: App) => any);
-        lift(cb: (err, sails: App) => any);
-        load(config: AppConfig, cb: (err, sails: App) => any);
-        load(cb: (err, sails: App) => any);
-        lower(cb?: (err) => any);
+        lift(config: AppConfig, cb: (err: any, sails: App) => any): void;
+        lift(cb: (err: any, sails: App) => any): void;
+        load(config: AppConfig, cb: (err: any, sails: App) => any): void;
+        load(cb: (err: any, sails: App) => any): void;
+        lower(cb?: (err: any) => any): void;
         on(event: string, cb?: () => any): App;
         models: Models;
         config: {

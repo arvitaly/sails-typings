@@ -1,20 +1,27 @@
 {
     "compilerOptions": {
-        "target": "es2015",
         "module": "commonjs",
+        "target": "es6",
+        "noImplicitAny": true,
+        "strictNullChecks": true,
         "typeRoots": [
-            "typings/globals",
-            "typings/modules"
+            "./typings/globals",
+            "./typings/modules"
         ],
         "types": [
-            "node",
-            "mime",
             "express",
-            "express-serve-static-core",
             "serve-static",
-            "socket.io",
-            "bluebird",
-            "waterline"
-        ]
-    }
+            "express-serve-static-core",
+            "mime",
+            "node",
+            "waterline",
+            "socket.io"
+        ],
+        "noEmit": true,
+        "forceConsistentCasingInFileNames": true
+    },
+    "files": [
+        "index.d.ts",
+        "sails-tests.ts"
+    ]
 }
