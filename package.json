@@ -18,6 +18,10 @@
   },
   "homepage": "https://github.com/arvitaly/sails-typings#readme",
   "dependencies": {
-    "waterline-typings": "0.0.2"
+    "waterline-typings": "^0.1.0"
+  },
+  "devDependencies": {
+    "tslint": "^4.0.2",
+    "typescript": "^2.0.10"
   }
 }
