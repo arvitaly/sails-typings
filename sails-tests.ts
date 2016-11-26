@@ -56,15 +56,16 @@ app1.config.csrf = {
     routesDisabled: ["r"],
 };
 app1.config.cors = false;
-app1.config.cors = <Sails.CORS>{
-    allRoutes: true,
-    credentials: true,
-    exposeHeaders: "eh",
-    headers: "h",
-    methods: "get,post",
-    origin: "*",
-    securityLevel: 1,
-};
+app1.config.cors = <Sails.CORS>
+    {
+        allRoutes: true,
+        credentials: true,
+        exposeHeaders: "eh",
+        headers: "h",
+        methods: "get,post",
+        origin: "*",
+        securityLevel: 1,
+    };
 app1.config.i18n = {
     defaultLocale: "fr",
     locales: ["en"],
@@ -72,13 +73,14 @@ app1.config.i18n = {
     updateFiles: true
 };
 app1.config.globals = true;
-app1.config.globals = <Sails.GlobalsConfig>{
-    _: true,
-    async: true,
-    models: true,
-    sails: true,
-    services: true,
-};
+app1.config.globals = <Sails.GlobalsConfig>
+    {
+        _: true,
+        async: true,
+        models: true,
+        sails: true,
+        services: true,
+    };
 app1.config.log = {
     level: "warn",
     inspect: true,
@@ -101,32 +103,39 @@ app1.config.models = {
 app1.config.policies = {};
 app1.config.routes = {
     route1: "Controller.index",
-    route2: <Sails.RouteBlueprint>{
+    route2: <Sails.RouteBlueprint>
+    {
         blueprint: "b",
         model: "m",
     },
-    route3: <Sails.RouteControllerAction>{
+    route3: <Sails.RouteControllerAction>
+    {
         controller: "c",
         action: "a",
     },
-    route4: <Sails.RouteFunction>{
+    route4: <Sails.RouteFunction>
+    {
         fn: (req, res) => { const x: number = req.accepted.length; },
         cors: true,
         locals: "l",
         skipAssets: true,
         skipRegex: /s/gi,
     },
-    route5: <Sails.RoutePolicy>{
+    route5: <Sails.RoutePolicy>
+    {
         policy: "p",
     },
-    route6: <Sails.RouteResponse>{
+    route6: <Sails.RouteResponse>
+    {
         response: "404",
     },
-    route7: <Sails.RouteView>{
+    route7: <Sails.RouteView>
+    {
         view: "v",
     },
     route8: <Sails.RouteWithPolicy>
-    [<Sails.RouteBlueprint & Sails.RoutePolicy>{ blueprint: "b", policy: "x" }],
+    [<Sails.RouteBlueprint & Sails.RoutePolicy>
+        { blueprint: "b", policy: "x" }],
 };
 app1.config.views = {
     layout: "l",
@@ -135,7 +144,7 @@ app1.config.views = {
     locals: {},
 };
 app1.config.sockets = {
-    
+
 }
 /*
 sockets ?: SocketsConfig;

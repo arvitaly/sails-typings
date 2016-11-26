@@ -1,7 +1,3 @@
 {
-    "extends": "tslint:latest",
-    "rules": {
-        "no-unused-variable": [],
-        "object-literal-sort-keys": []
-    }
+    "extends": "./node_modules/types-publisher/tslint-definitions.json"
 }
