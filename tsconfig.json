@@ -15,7 +15,8 @@
             "mime",
             "node",
             "waterline",
-            "socket.io"
+            "socket.io",
+            "bluebird"
         ],
         "noEmit": true,
         "forceConsistentCasingInFileNames": true
