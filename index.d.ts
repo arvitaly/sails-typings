@@ -1,6 +1,7 @@
 import NodeHTTPS = require("https");
 import Express = require("express");
 import Waterline = require("waterline");
+import Winston = require("winston");
 declare namespace Sails {
     export interface Module {
         constructor: new () => App;
@@ -14,6 +15,7 @@ declare namespace Sails {
         on(event: string, cb?: () => any): App;
         models: Models;
         config: AppConfig;
+        log: SailsLogger;
     }
     export type Models = { [index: string]: Model };
     export interface AppConfig {
@@ -48,7 +50,7 @@ declare namespace Sails {
         models?: ModelsConfig;
         policies?: any; //TODO http://sailsjs.com/documentation/reference/configuration/sails-config-policies
         routes?: {
-            [index: string]: Route | RouteWithPolicy;
+            [index: string]: Route | RouteWithPolicy | RouteFunction;
         };
         views?: {
             layout?: string | boolean;
@@ -290,6 +292,9 @@ declare namespace Sails {
         id: Id;
         data: T;
         previous?: T;
+    }
+    interface SailsLogger extends Winston.LoggerInstance {
+        /*silly: (message: string, ...args: any[]) => LoggerInstance*/
     }
 }
 declare var sails: Sails.App;

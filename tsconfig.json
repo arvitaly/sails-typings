@@ -5,8 +5,7 @@
         "noImplicitAny": true,
         "strictNullChecks": true,
         "typeRoots": [
-            "./typings/globals",
-            "./typings/modules"
+            "./node_modules/@types"
         ],
         "types": [
             "express",
@@ -16,7 +15,8 @@
             "node",
             "waterline",
             "socket.io",
-            "bluebird"
+            "bluebird",
+            "winston"
         ],
         "noEmit": true,
         "forceConsistentCasingInFileNames": true

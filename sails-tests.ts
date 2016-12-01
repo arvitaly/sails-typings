@@ -145,7 +145,7 @@ app1.config.views = {
 };
 app1.config.sockets = {
 
-}
+};
 /*
 sockets ?: SocketsConfig;
 sessions ?: SessionsConfig;*/
