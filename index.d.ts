@@ -43,7 +43,7 @@ declare namespace Sails {
         i18n?: I18nConfig;
         globals?: boolean | GlobalsConfig;
         log?: {
-            level?: "warn" | "info";
+            level?: "silent" | "error" | "warn" | "debug" | "info" | "verbose" | "silly";
             inspect?: boolean;
             custom?: any; //TODO http://sailsjs.com/documentation/reference/configuration/sails-config-log
         }
@@ -233,7 +233,7 @@ declare namespace Sails {
         param(name: string, defaultValue: any): any;
     }
     export type Id = string | number;
-    export interface Model extends Waterline.Model {
+    export type Model = Waterline.Model & Waterline.Collection & {
         globalId: string;
         // WebSockets Resourceful PubSub http://sailsjs.org/documentation/reference/web-sockets/resourceful-pub-sub  
         message(id: Id, data: any, req?: Request): Model;
