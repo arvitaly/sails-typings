@@ -1,5 +1,7 @@
 # sails-typings
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/arvitaly/sails-typings.svg)](https://greenkeeper.io/)
+
 Typings for [Sails.js](http://sailsjs.org/). Used like external module.
 
 # Install
