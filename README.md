@@ -12,7 +12,7 @@ Typings for [Sails.js](http://sailsjs.org/). Used like external module.
 # Usage
 
     import {Model} from "sails";
-    const model: Model;
+    declare const model: Model;
 
 # Tests
 
